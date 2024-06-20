@@ -33,21 +33,33 @@
 ### 2.1 Set Up the VPC and Subnets
 
 - Create a VPC and multiple subnets in different availability zones within the same region.
+
   ![VPC](images/createvpc.JPG)
+
 - Create an Internet Gateway, Attach it to your VPC.
+
   ![Gateway](images/createattagtw.JPG)
+
 - Create Route Tables and associate it with the public subnets.
+
   ![Create Routetable](images/route2.JPG)
+
   ![attached routetable](images/route1.JPG)
+
 - Add a route to the internet gateway.
+
   ![attached gateway](images/attgtw.JPG)
 
 ### 2.2 Create Security Groups
 
 - Create a security group to allow HTTP (port 80) and SSH (port 22) access.
+
   ![Securitygroup](images/attachldb.JPG)
+
 - Create a Security Group for EC2 Instances,allow inbound traffic from the load balancer security group, allow outbound traffic to the internet.
+
   ![Add rule first EC2](images/addEC21.JPG)
+
   ![Add rule 2](images/addEC22.JPG)
 
 ### 2.3 Set Up the ALB
@@ -69,36 +81,59 @@ Create an Application Load Balancer.
 
 Create a launch template for your EC2 instances.'launch-template-data.json' should include the AMI ID, instance type, key name, security groups, and user data to install Node.js and your application.
 
+![Launch EC2](images/ec2.JPG)
+
 ### 2.5 Create an Auto Scaling Group
 
 Create an Auto Scaling Group that uses your launch template and spans multiple subnets.
 
-## Step 3: Deploy the Node.js Application
+![default images](images/autosca1.jpg)
 
-Deploy your Node.js application to the EC2 instances. Use the user data section in the launch template to automate the deployment.
+![Auto Scaling Group](images/autosca2.JPG)
 
-## Step 4: Configure Database Connectivity
+## Step 3: Deploy a Simple Node.js Application
 
-Set up a secure connection between AWS and the on-premises database using AWS Direct Connect or a VPN. Update the application configuration to connect to the on-premises MySQL database using its private IP address.
+1. Set Up a Node.js Application:
 
-## Step 5: Implement Security Best Practices
+- Create a simple Node.js application.
 
-Encrypt data in transit using SSL/TLS for communication between the application and the database.
+  ![Nodejs](images/createnodejs.JPG)
 
-Set up IAM roles to manage permissions and access controls for AWS resources.
+- Package the application for deployment.
 
-## Step 6: Monitoring and Logging
+  ![alt text](images/uploadnode.JPG)
 
-Set up CloudWatch to monitor application performance and resource utilization. Enable CloudTrail for logging and auditing AWS API calls.
+1. Deploy to EC2 Instances:
 
-## Step 7: Load Testing
+- Use the launch configuration to deploy the Node.js application to the instances.
 
-Use a tool like Apache JMeter or Artillery to simulate load and test the application.
+  ![alt text](images/launchtemp.JPG)
 
-## Step 8: Scale Up and Scale Down
+## Step 4: Load Testing
 
-Ensure the Auto Scaling Group scales up when CPU usage rises to 80%.Ensure the Auto Scaling Group scales down when the load decreases.
+1. Perform Load Testing:
 
-## Step 9: Clean Up
+- Using Artillery to simulate traffic.
+
+  - Install Node.js
+  - Install Artillery:run the command 'npm install -g artillery'
+
+  ![alt text](images/installan.JPG)
+
+- Create a Test Script: Test.yml
+
+  - Define your load test in this YAML file
+  - Run the test by executing: 'artillery run test.yml'
+
+- Monitor the Auto Scaling Group to ensure it scales correctly based on load.
+
+## Step 5: Scale Up and Scale Down
+
+- Ensure the Auto Scaling Group scales up when CPU usage rises to 80%.
+- Ensure the Auto Scaling Group scales down when the load decreases.
+
+## Step 6: Clean Up
 
 Delete all resources to avoid unnecessary costs.
+
+This is a test readme file
